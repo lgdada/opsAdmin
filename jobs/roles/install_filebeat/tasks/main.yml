@@ -1,0 +1,38 @@
+---
+- name: Make sure filebeat running
+  service:
+    name: filebeat
+    state: started
+  register: result_install
+  ignore_errors: True
+
+- name: Install filebeat
+  script: install_filebeat_v1.sh '{{ filebeat_url }}'
+  when: result_install is failed
+
+# host vars: asset_labels > jms_nodes
+# log type: sepcial_logs > common_logs
+- name: Get common_logs type
+  when: asset_labels == []
+  set_fact:
+    log_type: common_logs
+    nodes: "{{ jms_nodes }}"
+
+- name: Get sepcial_logs type
+  when: asset_labels != []
+  set_fact:
+    log_type: sepcial_logs
+    logs: "{{ asset_labels }}"
+
+- name: Copy configure file
+  template:
+    src: filebeat.yml.j2
+    dest: /etc/filebeat/filebeat.yml
+    mode: '0644'
+  register: result_configure
+
+- name: Restart filebeat service
+  service:
+    name: filebeat
+    state: restarted
+  when: result_configure is change

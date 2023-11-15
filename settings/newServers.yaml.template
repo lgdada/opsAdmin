@@ -1,0 +1,11 @@
+vms:
+  image: appv2
+  flavor: app.small
+  project: 开发
+  network: 开发vpc
+  push_jms: false
+  jms_group: 
+  jms_project: 
+  jms_label: ""
+  servers:
+    - xxxx

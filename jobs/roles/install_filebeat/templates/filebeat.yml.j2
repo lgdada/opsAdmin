@@ -1,0 +1,83 @@
+{# 输入 #}
+filebeat.inputs:
+{% if log_type == "common_logs" %}
+{# 轮询可用common log配置, 过滤出与主机nodes有交集的, 如果没有匹配的, 选用defult日志 #}
+{% for log in common_logs if nodes | intersect(log['jms_nodes']) %}
+# common_logs
+  - type: log
+    enabled: true
+    paths:
+{% for path in log['paths'] %}
+      - {{ path }}
+{% endfor %}
+    close_timeout: 15m
+    fields:
+      log_topic: {{ log['topic'] }}
+{% if log['json'] == true %}
+    json.keys_under_root: true
+    json.overwrite_keys: true
+{% else %}
+    multiline.pattern: '^[[:space:]]+(at|\.{3})[[:space:]]+\b|^Caused by:'
+    multiline.negate: false
+    multiline.match: after
+{% endif %}
+{% else %}
+# default_logs
+  - type: log
+    enabled: true
+    paths:
+{% for path in default_log['paths'] %}
+      - {{ path }}
+{% endfor %}
+    close_timeout: 15m
+    fields:
+      log_topic: {{ default_log['topic'] }}
+{% if default_log['json'] == true %}
+    json.keys_under_root: true
+    json.overwrite_keys: true
+{% else %}
+    multiline.pattern: '^[[:space:]]+(at|\.{3})[[:space:]]+\b|^Caused by:'
+    multiline.negate: false
+    multiline.match: after
+{% endif %}
+{% endfor %}
+
+
+{% else %}
+{# 否则轮训sepcial_logs #}
+# sepcial_logs
+{% for log in sepcial_logs %}
+{% if log['label'] in asset_labels %}
+  - type: log
+    enabled: true
+    paths:
+{% for path in log['paths'] %}
+      - {{ path }}
+{% endfor %}
+    close_timeout: 15m
+    fields:
+      log_topic: {{ log['topic'] }}
+{% if log['json'] == true %}
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.add_error_key: true
+{% else %}
+    multiline.pattern: '^[[:space:]]+(at|\.{3})[[:space:]]+\b|^Caused by:'
+    multiline.negate: false
+    multiline.match: after
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{# 输出 #}
+output.kafka:
+  hosts:
+{% for kafka in kafkas %}
+    - {{ kafka }}
+{% endfor %}
+  topic: '%{[fields.log_topic]}'
+  partition.round_robin:
+    reachable_only: false
+  compression: gzip
+  max_message_bytes: 1000000

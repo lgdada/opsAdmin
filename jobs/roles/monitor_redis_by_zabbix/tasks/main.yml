@@ -1,0 +1,28 @@
+---
+- import_role:
+    name: install_python3
+
+- import_role:
+    name: install_zabbix_agent
+
+- name: pip3 install packages
+  shell:  |
+    pip3 install redis argparse
+
+
+- name: copy userparameters_redis.conf
+  copy:
+    src: userparameters_redis.conf
+    dest: /etc/zabbix/zabbix_agent2.d/userparameters_redis.conf
+    mode: '0644'
+
+- name: copy zabbix_check_redis.py
+  copy:
+    src: zabbix_check_redis.py
+    dest: /etc/zabbix/zabbix_check_redis.py
+    mode: '0755'
+
+- name: restart zabbix agent
+  service:
+    name: zabbix-agent2
+    state: restarted

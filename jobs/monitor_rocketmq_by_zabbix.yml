@@ -1,0 +1,8 @@
+---
+- name: monitor rocketmq by zabbix
+  hosts: monitor_rocketmq_by_zabbix
+  gather_facts: false
+  roles:
+    - role: monitor_rocketmq_by_zabbix
+  vars_files:
+    - vars.yaml

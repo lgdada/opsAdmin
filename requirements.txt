@@ -1,0 +1,7 @@
+openstacksdk
+ldap3
+pyzabbix
+pylibmc
+httpsig
+pandas
+sqlalchemy==1.4.0

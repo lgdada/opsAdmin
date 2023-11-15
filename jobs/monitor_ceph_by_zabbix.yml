@@ -1,0 +1,8 @@
+---
+- name: monitor ceph by zabbix
+  hosts: monitor_ceph_by_zabbix
+  gather_facts: false
+  roles:
+    - role: monitor_ceph_by_zabbix
+  vars_files:
+    - vars.yaml

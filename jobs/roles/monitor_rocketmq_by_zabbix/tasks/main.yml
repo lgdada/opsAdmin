@@ -1,0 +1,24 @@
+---
+- import_role:
+    name: install_zabbix_agent
+
+- name: check port tcp:5557 is open
+  wait_for:
+    port: 5557
+    timeout: 1
+  register: result_check
+  ignore_errors: True
+
+- name: run rocketmq-exporter-0.0.2-SNAPSHOT.jar
+  shell: |
+    source /etc/profile
+    cd /opt
+    wget {{ rocketmq_exporter_url }}
+    nohup java -jar rocketmq-exporter-0.0.2-SNAPSHOT.jar &
+  when: result_check is failed
+
+- name: auto start java process
+  blockinfile:
+    path: /etc/rc.local
+    block: source /etc/profile && cd /opt && nohup java -jar rocketmq-exporter-0.0.2-SNAPSHOT.jar &
+  when: result_check is failed

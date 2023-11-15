@@ -1,0 +1,24 @@
+---
+- name: Make sure zabbix agent running
+  service:
+    name: zabbix-agent2
+    state: started
+  register: result_install
+  ignore_errors: True
+
+- name: install zabbix agent
+  script: install_zabbix_agent_v1.sh '{{ zabbix_agent_url }}'
+  when: result_install is failed
+
+- name: copy configure file
+  template:
+    src: zabbix_agent2.conf.j2
+    dest: /etc/zabbix/zabbix_agent2.conf
+    mode: '0644'
+  register: result_configure
+
+- name: restart zabbix agent service
+  service:
+    name: zabbix-agent2
+    state: restarted
+  when: result_configure is change

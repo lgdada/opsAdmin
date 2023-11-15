@@ -1,0 +1,19 @@
+clouds:
+  prod_sh_1:
+    region_name: RegionOne
+    auth:
+      username: admin
+      password: aLQ4kdeOaaoMBoQuLHXqf2NeraNeLeUC0iqr2dYH
+      project_name: admin
+      project_domain_name: Default
+      user_domain_name: Default
+      auth_url: http://10.53.1.0:35357/
+  dev_hz_1:
+    region_name: RegionOne
+    auth:
+      username: admin
+      password: zMMJssuWkoCYL4WT3O8RrVbXRDG5RFWwa6NGNSZz
+      project_name: admin
+      project_domain_name: Default
+      user_domain_name: Default
+      auth_url: http://10.254.0.10:35357/

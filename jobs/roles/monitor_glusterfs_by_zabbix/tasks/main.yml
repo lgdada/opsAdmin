@@ -1,0 +1,33 @@
+---
+- name: yum install perl-App-cpanminus.noarch
+  yum:
+    name: perl-App-cpanminus
+
+- name: cpanm install Switch
+  cpanm:
+    name: Switch
+
+- import_role:
+    name: install_zabbix_agent
+
+- name: config /etc/sudoers
+  lineinfile:
+    path: /etc/sudoers
+    line: 'zabbix  ALL=(ALL)       NOPASSWD: ALL'
+
+- name: copy userparameters_glusterfs.conf
+  copy:
+    src: userparameters_glusterfs.conf
+    dest: /etc/zabbix/zabbix_agent2.d/userparameters_glusterfs.conf
+    mode: '0644'
+
+- name: copy gluster-monitoring.pl
+  copy:
+    src: gluster-monitoring.pl
+    dest: /etc/zabbix/gluster-monitoring.pl
+    mode: '0755'
+
+- name: restart zabbix agent
+  service:
+    name: zabbix-agent2
+    state: restarted

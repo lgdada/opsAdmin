@@ -1,0 +1,14 @@
+project_name: just_test
+proxy_env: "{'env': 'ly.sh'}"
+network_provider:
+  network_type: vlan
+  physical_network: physnet1
+  segmentation_id: 999
+subnet_params:
+  cidr: 172.16.16.0/24
+  allocation_pools:
+    - start: '172.16.16.10'
+      end: '172.16.16.240'
+  gateway_ip: '172.16.16.1'
+  dns_nameservers:
+    - '114.114.114.114'

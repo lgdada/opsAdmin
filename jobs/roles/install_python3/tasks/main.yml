@@ -1,0 +1,19 @@
+---
+- name: Install python3 by yum
+  yum:
+    name:
+      - python3
+      - python3-devel
+    state: present
+
+- name: Create /root/.pip directory
+  ansible.builtin.file:
+    path: /root/.pip
+    state: directory
+    mode: '0755'
+
+- name: copy pip.conf
+  copy:
+    src: pip.conf
+    dest: /root/.pip/pip.conf
+    mode: '0644'

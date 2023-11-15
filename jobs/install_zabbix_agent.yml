@@ -1,0 +1,8 @@
+---
+- name: install zabbix agent
+  hosts: install_zabbix_agent
+  gather_facts: false
+  roles:
+    - role: install_zabbix_agent
+  vars_files:
+    - vars.yaml

@@ -1,0 +1,9 @@
+*.ini
+*.pyc
+*.pyo
+*.yaml
+.vscode
+.cache
+*.db
+ansible
+__pycache__

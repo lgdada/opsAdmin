@@ -1,0 +1,8 @@
+---
+- name: monitor zk by zabbix
+  hosts: monitor_zk_by_zabbix
+  gather_facts: false
+  roles:
+    - role: monitor_zk_by_zabbix
+  vars_files:
+    - vars.yaml

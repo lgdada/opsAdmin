@@ -1,0 +1,8 @@
+---
+- name: monitor redis by zabbix
+  hosts: monitor_redis_by_zabbix
+  gather_facts: false
+  roles:
+    - role: monitor_redis_by_zabbix
+  vars_files:
+    - vars.yaml

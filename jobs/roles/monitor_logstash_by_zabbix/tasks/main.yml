@@ -1,0 +1,30 @@
+---
+- import_role:
+    name: install_python3
+
+- import_role:
+    name: install_zabbix_agent
+
+- name: copy logstash.conf
+  copy:
+    src: logstash.conf
+    dest: /etc/zabbix/zabbix_agent2.d/logstash.conf
+    mode: '0644'
+
+- name: copy logstash_pipelines_lld.py
+  copy:
+    src: logstash_pipelines_lld.py
+    dest: /etc/zabbix/logstash_pipelines_lld.py
+    mode: '0755'
+
+- name: copy logstash_pipelines_lld-full.py
+  copy:
+    src: logstash_pipelines_lld-full.py
+    dest: /etc/zabbix/logstash_pipelines_lld-full.py
+    mode: '0755'
+
+- name: restart zabbix agent
+  service:
+    name: zabbix-agent2
+    state: restarted
+

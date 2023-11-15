@@ -1,0 +1,8 @@
+---
+- name: install filebeat
+  hosts: install_filebeat
+  gather_facts: false
+  roles:
+    - role: install_filebeat
+  vars_files:
+    - vars.yaml

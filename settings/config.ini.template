@@ -1,0 +1,39 @@
+[global]
+debug = true
+new_project = newProject.yaml
+new_servers = newServers.yaml
+new_records = newRecords.yaml
+
+[openstack]
+cloud_file = clouds.yaml
+cloud_name = dev_hz_1
+cloud_debug = true
+debug_file = /tmp/openstack.log
+cache_path = ../.cache
+
+[jumpserver]
+jms_url = http://10.70.90.10/api/v1
+AccessKeyID = 8f33fc5c-1856-4df1-bce3-24ce8b6d0060
+AccessKeySecret = 5fa8a0c9-f9e9-4688-a1c6-982a6a2d8f39
+
+[gitlab]
+gitlab_url = http://git.yingyingwork.com/api/v4
+gitlab_token = RifJ1fChZh5TxzFapf87
+
+[ldap]
+ldap_host = 10.79.16.65
+ldap_user = CN=Administrator,CN=Users,DC=yylc,DC=com
+ldap_pass = Admin123.
+ldap_base = OU=盈盈集团,DC=yylc,DC=com
+ldap_attributes = displayName,mail
+
+[zabbix]
+zabbix_url = http://zabbix-master.yygroup.sh
+zabbix_user = zapi
+zabbix_pass = 079325
+
+[dnsdb]
+dnsdb_url = http://10.254.4.231:9001/api
+
+[database]
+db_file = ../database.db
